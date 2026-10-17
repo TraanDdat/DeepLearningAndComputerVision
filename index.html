@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+			font-family: Arial, sans-serif;
+			max-width: 800px;
+			margin: 60px auto;
+			padding: 0 20px;
+			line-height: 1.7;
+			text-align: center;
+        }
+        h1 { color: #1f2937; }
+        a { color: #0969da; }
+        .links {
+            padding: 20px;
+            background: #f6f8fa;
+            border-radius: 8px;
+        }
+
+		.team {
+			margin: 30px 0;
+		}
+
+		.team-container {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 20px;
+		}
+
+		.member-card {
+			text-align: center;
+			padding: 24px 16px;
+			border: 1px solid #d1d5db;
+			border-radius: 12px;
+			background: #ffffff;
+		}
+
+		.member-card h3 {
+			margin: 8px 0;
+		}
+
+		.member-card p {
+			margin: 6px 0;
+			color: #6b7280;
+			font-size: 14px;
+		}
+
+		@media (max-width: 600px) {
+			.team-container {
+				grid-template-columns: 1fr;
+			}
+		}
+		.supervisor {
+			text-align: center;
+			margin: 30px 0;
+			padding: 20px;
+			background: #f6f8fa;
+			border: 1px solid #d1d5db;
+			border-radius: 12px;
+		}
+
+		.supervisor h2 {
+			margin: 8px 0;
+		}
+
+		.supervisor h3 {
+			margin: 10px 0 4px;
+			color: #1f2937;
+		}
+
+		.supervisor p {
+			margin: 0;
+			color: #6b7280;
+			font-size: 14px;
+		}
+    </style>
+</head>
+<body>
+    <h1>Deep Learning And Applied Computer Vision</h1>
+	<section class="supervisor">
+		<h2>Instructor: Le Thanh Sach</h2>
+		<h3>Gmail: ltsach@hcmut.edu.vn</h3>
+	</section>
+	<section class="team">
+		<h2>Team Members</h2>
+
+		<div class="team-container">
+			<div class="member-card">
+				<h3>Tran Ngoc Dat</h3>
+				<p>Student ID: 2570388</p>
+				<p>Gmail: dat.tranngoc09112000@hcmut.edu.vn</p>
+			</div>
+
+			<div class="member-card">
+				<h3>Nguyen Dinh Quang Khai</h3>
+				<p>Student ID: 2570231</p>
+				<p>Gmail: khaidng1601@gmail.com</p>
+			</div>
+		</div>
+	</section>
+    <div class="links">
+        <h2>Submission Links</h2>
+
+        <p>
+            <a href="https://github.com/TraanDdat/DeepLearningAndComputerVision">
+                GitHub Repository
+            </a>
+        </p>
+
+        <p>
+            <a href="reports/exercises.pdf">
+                Reports
+            </a>
+        </p>
+    </div>
+</body>
+</html>
