@@ -167,7 +167,7 @@
         <div class="meta-info">
             <div><strong>Dataset:</strong>CIFAR100</div>
             <div><strong>CNN Family:</strong> ResNet-18</div>
-            <div><strong>Transformer Family:</strong> ViT-B/16</div>
+            <div><strong>Transformer Family:</strong> ViT-Small</div>
         </div>
 
         <div class="links-group">
@@ -251,11 +251,11 @@
     <!-- 3. Experimental Protocol -->
     <section>
         <h2>3. Experimental Protocol & Training Configuration Matrix</h2>
-        <p>The experiments are set up consistently to compare the two architecture families <strong>ResNet-18 (CNN)</strong> and <strong>ViT-B/16 (Transformer)</strong> across weight initialization modes (From-SCratch) and freeze levels based on the pretrained model:</p>
+        <p>The experiments are set up consistently to compare the two architecture families <strong>ResNet-18 (CNN)</strong> and <strong>ViT-Small (Transformer)</strong> across weight initialization modes (From-SCratch) and freeze levels based on the pretrained model:</p>
         
         <ul>
             <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500</code></li>
-            <li><strong>Pretrained model:</strong><code> Resnet18-Pytorch-ImageNet, ViT-B/16 (PyTorch)</code></li>
+            <li><strong>Pretrained model:</strong><code> Resnet18-Pytorch-ImageNet, ViT-Small (PyTorch)</code></li>
             <li><strong>Optimizer: </strong>AdamW<code>lr = 0.0003, betas = (0.9, 0.999), weight_decay = 1e-3</code></li>
             <li><strong>Scheduler: </strong>ReduceLROnPlateau:<code>mode = "min", factor = 0.5, patience = 5, min_lr = 1e-6</code></li>
             <li><strong>Epochs:</strong><code>60</code></li>
@@ -274,28 +274,28 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>ResNet-18 / ViT</td>
+                    <td>ResNet-18 / ViT-Small</td>
                     <td>Kaiming Method</td>
                     <td><span class="badge badge-scratch">From-Scratch</span></td>
                     <td class="text-left">Unfreeze 100% of parameters (Train from scratch).</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>ResNet-18 / ViT</td>
+                    <td>ResNet-18 / ViT-Small</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-freeze">Freeze All Of Backbone</span></td>
                     <td class="text-left">Freeze the entire Backbone, only train the Linear Classifier Head.</td>
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>ResNet-18 / ViT</td>
+                    <td>ResNet-18 / ViT-Small</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-partial">Freeze Partial Backbone</span></td>
-                    <td class="text-left">Partial freeze (Freeze Layers First Convolution, First Batch Normalization, Layer 1 of ResNet or the first 6 Transformer Blocks of ViT).</td>
+                    <td class="text-left">Partial freeze (Freeze Layers First Convolution, First Batch Normalization, Layer 1 of ResNet or the first 6 Transformer Blocks of ViT-Small).</td>
                 </tr>
                 <tr>
                     <td>4</td>
-                    <td>ResNet-18 / ViT</td>
+                    <td>ResNet-18 / ViT-Small</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-pretrained">Full Fine-tune</span></td>
                     <td class="text-left">Unfreeze the entire network and fine-tune with a small Learning Rate.</td>
@@ -357,9 +357,9 @@
                     <td>-- s</td>
                 </tr>
 
-                <!-- ViT-B/16 -->
+                <!-- ViT-Small -->
                 <tr>
-                    <td rowspan="4"><strong>ViT-B/16</strong><br>(Transformer)</td>
+                    <td rowspan="4"><strong>ViT-Small</strong><br>(Transformer)</td>
                     <td class="text-left">From-scratch</td>
                     <td>TBU</td>
                     <td>--.--%</td>
@@ -416,18 +416,18 @@
                 </div>
             </div>
 
-            <!-- Right column: Transformer (ViT-B/16) -->
+            <!-- Right column: Transformer (ViT-Small) -->
             <div class="model-column">
-                <h3>2. Transformer Family (ViT-B/16)</h3>
+                <h3>2. Transformer Family (ViT-Small)</h3>
                 
                 <h4>Confusion Matrix</h4>
                 <div class="placeholder-box">
-                    [Confusion Matrix of ViT-B/16]
+                    [Confusion Matrix of ViT-Small]
                 </div>
 
                 <h4>Top Misclassified Examples</h4>
                 <div class="placeholder-box">
-                    [Insert representative misclassified examples of ViT-B/16<br>
+                    [Insert representative misclassified examples of ViT-Small<br>
                     <small>(Including True Label vs Predicted Label)</small>]
                 </div>
             </div>
