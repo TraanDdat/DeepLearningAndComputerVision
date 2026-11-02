@@ -287,14 +287,14 @@
     <!-- 3. Experimental Protocol -->
     <section>
         <h2>3. Experimental Protocol & Training Configuration Matrix</h2>
-        <p>The experiments are set up consistently to compare the two architecture families <strong>ResNet-18 (CNN)</strong> and <strong>ViT-Small (Transformer)</strong> across weight initialization modes (From-SCratch) and freeze levels based on the pretrained model:</p>
+        <p>TBU<strong>TBU</strong> and <strong>TBU</strong> TBU</p>
         
         <ul>
             <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500</code></li>
-            <li><strong>Pretrained model:</strong><code> Resnet18-Pytorch-ImageNet, ViT-Small (PyTorch)</code></li>
-            <li><strong>Optimizer: </strong>AdamW<code>lr = 0.0003, betas = (0.9, 0.999), weight_decay = 1e-3</code></li>
-            <li><strong>Scheduler: </strong>ReduceLROnPlateau:<code>mode = "min", factor = 0.5, patience = 5, min_lr = 1e-6</code></li>
-            <li><strong>Epochs:</strong><code>60</code></li>
+            <li><strong>Pretrained model:</strong><code>TBU</code></li>
+            <li><strong>Optimizer: </strong>TBU<code>TBU</code></li>
+            <li><strong>Scheduler: </strong>TBU<code>TBU</code></li>
+            <li><strong>Epochs:</strong><code>TBU</code></li>
         </ul>
 
         <table>
@@ -307,36 +307,6 @@
                     <th>Freeze Level Details</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>ResNet-18 / ViT-Small</td>
-                    <td>Kaiming Method</td>
-                    <td><span class="badge badge-scratch">From-Scratch</span></td>
-                    <td class="text-left">Unfreeze 100% of parameters (Train from scratch).</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>ResNet-18 / ViT-Small</td>
-                    <td>Pretrained</td>
-                    <td><span class="badge badge-freeze">Freeze All Of Backbone</span></td>
-                    <td class="text-left">Freeze the entire Backbone, only train the Linear Classifier Head.</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>ResNet-18 / ViT-Small</td>
-                    <td>Pretrained</td>
-                    <td><span class="badge badge-partial">Freeze Partial Backbone</span></td>
-                    <td class="text-left">Partial freeze (Freeze Layers First Convolution, First Batch Normalization, Layer 1 of ResNet or the first 6 Transformer Blocks of ViT-Small).</td>
-                </tr>
-                <tr>
-                    <td>4</td>
-                    <td>ResNet-18 / ViT-Small</td>
-                    <td>Pretrained</td>
-                    <td><span class="badge badge-pretrained">Full Fine-tune</span></td>
-                    <td class="text-left">Unfreeze the entire network and fine-tune with a small Learning Rate.</td>
-                </tr>
-            </tbody>
         </table>
     </section>
 
@@ -358,76 +328,6 @@
                     <th>Time (s/epoch)</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td rowspan="4"><strong>ResNet-18</strong><br>(CNN)</td>
-                    <td class="text-left">From-scratch</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Freeze All Of Backbone</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Freeze Partial Backbone (Conv1, BN1, Layer 1)</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Full Fine-tune</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-
-                <!-- ViT-Small -->
-                <tr>
-                    <td rowspan="4"><strong>ViT-Small</strong><br>(Transformer)</td>
-                    <td class="text-left">From-scratch</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Freeze All Of Backbone</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Freeze Partial Backbone (Block 1-6)</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Full Fine-tune</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-            </tbody>
         </table>
     </section>
 
@@ -438,7 +338,7 @@
 
         <div class="comparison-grid">
             <div class="model-column">
-                <h3>1. CNN Family (ResNet-18)</h3>
+                <h3>TBU</h3>
                 
                 <h4>Confusion Matrix</h4>
                 <div class="placeholder-box">
@@ -454,7 +354,7 @@
 
             <!-- Right column: Transformer (ViT-Small) -->
             <div class="model-column">
-                <h3>2. Transformer Family (ViT-Small)</h3>
+                <h3>TBU</h3>
                 
                 <h4>Confusion Matrix</h4>
                 <div class="placeholder-box">
@@ -474,7 +374,7 @@
     <section>
         <h2>6. Discussion</h2>
         <ul>
-            <li><strong>Comparison of CNN vs Transformer:</strong> TBU</li>
+            <li><strong>TBU</strong> TBU</li>
         </ul>
     </section>
 </div>
