@@ -133,6 +133,35 @@
             border-radius: 6px;
             margin: 12px 0;
         }
+
+        .result-images {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .result-image {
+            margin: 0;
+            padding: 8px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            background-color: #ffffff;
+            text-align: center;
+        }
+
+        .result-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .result-image figcaption {
+            margin-top: 6px;
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
         .comparison-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -323,73 +352,74 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- ResNet-18 -->
                 <tr>
                     <td rowspan="4"><strong>ResNet-18</strong><br>(CNN)</td>
                     <td class="text-left">From-scratch</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>11,220,132 (100%)</td>
+                    <td>73.47%</td>
+                    <td>73.47%</td>
+                    <td>0.7350</td>
+                    <td>25.9 s</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Freeze All Of Backbone</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>51,300 (0.46%)</td>
+                    <td>79.19%</td>
+                    <td>79.19%</td>
+                    <td>0.7908</td>
+                    <td>9.7 s</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Freeze Partial Backbone (Conv1, BN1, Layer 1)</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>11,070,308 (98.66%)</td>
+                    <td>78.01%</td>
+                    <td>78.01%</td>
+                    <td>0.7801</td>
+                    <td>17.8 s</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Full Fine-tune</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>11,220,132 (100%)</td>
+                    <td>78.13%</td>
+                    <td>78.13%</td>
+                    <td>0.7818</td>
+                    <td>26.0 s</td>
                 </tr>
 
                 <!-- ViT-Small -->
                 <tr>
                     <td rowspan="4"><strong>ViT-Small</strong><br>(Transformer)</td>
                     <td class="text-left">From-scratch</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>21,376,996 (100%)</td>
+                    <td>45.18%</td>
+                    <td>46.46%</td>
+                    <td>0.4604</td>
+                    <td>129.5 s</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Freeze All Of Backbone</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>38,500 (0.18%)</td>
+                    <td>65.90%</td>
+                    <td>65.55%</td>
+                    <td>0.6546</td>
+                    <td>48.3 s</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Freeze Partial Backbone (Block 1-6)</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>10,686,052 (50.0%)</td>
+                    <td>82.70%</td>
+                    <td>82.70%</td>
+                    <td>0.8271</td>
+                    <td>88.8 s</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Full Fine-tune</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>21,376,996 (100%)</td>
+                    <td>88.32%</td>
+                    <td>88.32%</td>
+                    <td>0.8834</td>
+                    <td>165.6 s</td>
                 </tr>
             </tbody>
         </table>
@@ -405,14 +435,43 @@
                 <h3>1. CNN Family (ResNet-18)</h3>
                 
                 <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ResNet-18]
+                <div class="result-images">
+                    <figure class="result-image">
+                        <img src="DB_ResNet/ConfusionMatrix_FromScratch.png" alt="ResNet-18 confusion matrix from scratch">
+                        <figcaption>From-Scratch</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ResNet/ConfusionMatrix_FreezeAll.png" alt="ResNet-18 confusion matrix with frozen backbone">
+                        <figcaption>Freeze Backbone</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ResNet/ConfusionMatrix_FreezePartial.png" alt="ResNet-18 confusion matrix with partial freeze">
+                        <figcaption>Partial Freeze</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ResNet/ConfusionMatrix_FineTune.png" alt="ResNet-18 confusion matrix with full fine-tuning">
+                        <figcaption>Full Fine-tune</figcaption>
+                    </figure>
                 </div>
 
                 <h4>Top Misclassified Examples</h4>
-                <div class="placeholder-box">
-                    [Insert representative misclassified examples of ResNet-18<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
+                <div class="result-images">
+                    <figure class="result-image">
+                        <img src="DB_ResNet/MisClassified_FromSratch.png" alt="ResNet-18 misclassified examples from scratch">
+                        <figcaption>From-Scratch</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ResNet/MisClassified_FreezeAll.png" alt="ResNet-18 misclassified examples with frozen backbone">
+                        <figcaption>Freeze Backbone</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ResNet/MisClassified_FreezePartial.png" alt="ResNet-18 misclassified examples with partial freeze">
+                        <figcaption>Partial Freeze</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ResNet/MisClassified_Finetune.png" alt="ResNet-18 misclassified examples with full fine-tuning">
+                        <figcaption>Full Fine-tune</figcaption>
+                    </figure>
                 </div>
             </div>
 
@@ -421,14 +480,43 @@
                 <h3>2. Transformer Family (ViT-Small)</h3>
                 
                 <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ViT-Small]
+                <div class="result-images">
+                    <figure class="result-image">
+                        <img src="DB_ViT/CM_1.png" alt="ViT-Small confusion matrix CM_1">
+                        <figcaption>From-Scratch</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ViT/CM_2.png" alt="ViT-Small confusion matrix CM_2">
+                        <figcaption>Freeze Backbone</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ViT/CM_3.png" alt="ViT-Small confusion matrix CM_3">
+                        <figcaption>Partial Freeze</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ViT/CM_4.png" alt="ViT-Small confusion matrix CM_4">
+                        <figcaption>Full Fine-tune</figcaption>
+                    </figure>
                 </div>
 
                 <h4>Top Misclassified Examples</h4>
-                <div class="placeholder-box">
-                    [Insert representative misclassified examples of ViT-Small<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
+                <div class="result-images">
+                    <figure class="result-image">
+                        <img src="DB_ViT/miss_1.png" alt="ViT-Small misclassified examples miss_1">
+                        <figcaption>From-Scratch</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ViT/miss_2.png" alt="ViT-Small misclassified examples miss_2">
+                        <figcaption>Freeze Backbone</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ViT/miss_3.png" alt="ViT-Small misclassified examples miss_3">
+                        <figcaption>Partial Freeze</figcaption>
+                    </figure>
+                    <figure class="result-image">
+                        <img src="DB_ViT/miss_4.png" alt="ViT-Small misclassified examples miss_4">
+                        <figcaption>Full Fine-tune</figcaption>
+                    </figure>
                 </div>
             </div>
         </div>
@@ -437,9 +525,50 @@
     <!-- 6. Discussion -->
     <section>
         <h2>6. Discussion</h2>
-        <ul>
-            <li><strong>Comparison of CNN vs Transformer:</strong> TBU</li>
-        </ul>
+        <h3>1. Performance Comparison (Test Accuracy)</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Training Strategy</th>
+                    <th>ViT-Small (Transformer)</th>
+                    <th>ResNet-18 (CNN)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-left"><strong>From-scratch</strong></td>
+                    <td>46.46%</td>
+                    <td>73.47%</td>
+                </tr>
+                <tr>
+                    <td class="text-left"><strong>Pretrained - Freeze All</strong></td>
+                    <td>65.55%</td>
+                    <td>79.19%</td>
+                </tr>
+                <tr>
+                    <td class="text-left"><strong>Pretrained - Freeze Partial</strong></td>
+                    <td>82.70%</td>
+                    <td>78.01%</td>
+                </tr>
+                <tr>
+                    <td class="text-left"><strong>Pretrained - Full Fine-tune</strong></td>
+                    <td>88.32%</td>
+                    <td>78.13%</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>2. Inductive Bias</h3>
+        <p><strong>CNN (ResNet-18):</strong> Enjoys strong built-in spatial inductive biases (locality and translation equivariance) through convolution operations. This allows the model to perform robustly when trained <strong>from-scratch</strong>, achieving 73.47% accuracy, without heavy reliance on massive pretraining datasets.</p>
+        <p><strong>ViT-Small:</strong> Lacks inherent spatial priors, relying instead on global self-attention mechanisms and positional embeddings. Consequently, training <strong>from-scratch</strong> on a medium-scale dataset like CIFAR-100 leads to severe underfitting and lower accuracy (46.46%).</p>
+
+        <h3>3. Transfer Learning &amp; Pretraining Dependency</h3>
+        <p><strong>Vision Transformer (ViT):</strong> Exhibits extreme dependency on pretraining to establish spatial representations. When fully adapted via <strong>Full Fine-tune</strong>, ViT significantly outperforms the CNN baseline, reaching a peak accuracy of <strong>88.32%</strong>.</p>
+        <p><strong>ResNet-18:</strong> Demonstrates a much lower performance ceiling expansion when transitioning from scratch to pretrained regimes, indicating that convolutional inductive biases saturate earlier on constrained datasets.</p>
+
+        <h3>4. Computational Complexity and Resource Allocation</h3>
+        <p><strong>ViT-Small:</strong> Incurs high parameter capacity (~21.38M parameters) and computational overhead during full end-to-end optimization. However, freezing strategies (e.g., Freeze All or Partial Freeze) offer remarkable memory and time efficiency by limiting backpropagation to specific structural blocks.</p>
+        <p><strong>ResNet-18:</strong> Features faster convergence rates and lower resource requirements when trained from scratch, maintaining stable optimization dynamics across smaller-scale vision tasks.</p>
     </section>
 </div>
 
