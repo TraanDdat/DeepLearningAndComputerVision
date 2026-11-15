@@ -223,7 +223,7 @@
         <ul>
             <li><strong>Dataset Link: </strong>https://www.cityscapes-dataset.com/dataset-overview/</li>
             <li><strong>Selected Dataset: </strong>Cityscapes</li>
-			<li><strong>The number of classes: </strong>30 classes (19 classes are used in primary benchmark</li>
+			<li><strong>The number of classes: </strong>30 classes (19 classes are used in primary benchmark)</li>
 			<li><strong>Resolution: </strong>2048 x 1024</li>
             <li><strong>Split Configuration: </strong>
                 <ul>
@@ -252,31 +252,26 @@
             <tbody>
                 <tr>
                     <td class="text-left"><strong>Input Image size</strong></td>
-                    <td>32 &times; 32</td>
-                    <td>32 &times; 32</td>
+                    <td>1024 &times; 512</td>
+                    <td>1024 &times; 512</td>
                 </tr>
                 <tr>
-                    <td class="text-left"><strong>Batch Size</strong></td>
-                    <td>32/64/128</td>
-                    <td>32/64/128</td>
-                </tr>
-                <tr>
-                    <td class="text-left"><strong>Shuffle & Workers</strong></td>
-                    <td><code>Shuffle = True</code>, <code>num_workers = 2</code></td>
-                    <td><code>Shuffle = False</code>, <code>num_workers = 2</code></td>
+                    <td class="text-left"><strong>Shuffle</strong></td>
+                    <td><code>Shuffle = True</code></td>
+                    <td><code>Shuffle = False</code></td>
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Augmentation Pipeline</strong></td>
                     <td class="text-left">
                         <ul>
-                            <li><code>RandomResizedCrop(32)</code></li>
                             <li><code>RandomHorizontalFlip(p=0.5)</code></li>
-                            <li><code>Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))</code></li>
+                            <li><code>ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, p=0.5)</code></li>
+                            <li><code>Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])</code></li>
                         </ul>
                     </td>
                     <td class="text-left">
                         <ul>
-                            <li><code>Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))</code></li>
+                            <li><code>Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])</code></li>
                         </ul>
                     </td>
                 </tr>
@@ -287,95 +282,161 @@
     <!-- 3. Experimental Protocol -->
     <section>
         <h2>3. Experimental Protocol & Training Configuration Matrix</h2>
-        <p>TBU<strong>TBU</strong> and <strong>TBU</strong> TBU</p>
+        <p>DeepLabV3+ architecture utilizing a MobileNetV3-Large encoder and ASPP (Atrous Spatial Pyramid Pooling).</p>
+        <ul>
+            <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500 Ada</code></li>
+            <li><strong>Models:</strong><code>MobileNet_V3_Large and DeepLabV3+</code></li>
+            <li><strong>Optimizer: </strong><code>AdamW (Weight Decay: 1e-4)</code></li>
+            <li><strong>Scheduler: </strong><code>ReduceLROnPlateau (factor=0.5, patience=5)</code>. The learning rates drop to 0.000050 (Backbone) and 0.000500 (Head) at Epoch 18. The rates drop again to 0.000025 (Backbone) and 0.000250 (Head) at Epoch 27.</li>
+        </ul>
+        <p>SegFormer-B0 architecture utilizing a MiT-B0 (Mix Transformer) encoder and All-MLP Decoder.</p>
         
         <ul>
-            <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500</code></li>
-            <li><strong>Pretrained model:</strong><code>TBU</code></li>
-            <li><strong>Optimizer: </strong>TBU<code>TBU</code></li>
-            <li><strong>Scheduler: </strong>TBU<code>TBU</code></li>
-            <li><strong>Epochs:</strong><code>TBU</code></li>
+            <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500 Ada</code></li>
+            <li><strong>Models:</strong><code>MiT-B0 + SegFormer-B0</code></li>
+            <li><strong>Optimizer: </strong><code>AdamW (Weight Decay: 0.01)</code></li>
+            <li><strong>Scheduler: </strong><code>ReduceLROnPlateau (mode="max", factor=0.5, patience=4)</code>. For SegFormer-B0, initial learning rates are 6e-5 (Backbone) and 6e-4 (Head). The rates drop to 3e-5 / 3e-4 at Epoch 27, and 1.5e-5 / 1.5e-4 at Epoch 44.</li>
         </ul>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Ver.</th>
-                    <th>Model</th>
-                    <th>Initialize weights</th>
-                    <th>Training Strategy</th>
-                    <th>Freeze Level Details</th>
-                </tr>
-            </thead>
-        </table>
     </section>
 
     <!-- 4. Results & Comparison -->
     <section>
         <h2>4. Comparison Results Table & Evaluation Metrics</h2>
-        <p>The test results are based on the model trained with the highest validation accuracy.</p>
+        <p>The test results are based on the model trained with the highest validation accuracy (Best Model saved at Epoch 21 for DeepLabV3+ and Epoch 45 for SegFormer-B0).</p>
         <p>Summary table of experimental data:</p>
         
         <table>
             <thead>
                 <tr>
                     <th>Architecture</th>
-                    <th>Configuration / Freeze Level</th>
-                    <th>Trainable Params</th>
-                    <th>Val Accuracy (%)</th>
-                    <th>Test Accuracy (%)</th>
-                    <th>Macro F1-Score</th>
-                    <th>Time (s/epoch)</th>
+					<th>Epoch</th>
+					<th>Learning Rate</th>
+                    <th>Validation Loss</th>
+                    <th>Pixel Accuracy</th>
+                    <th>mIoU</th>
+					<th>Precision</th>
+					<th>Recall</th>
+					<th>F1-score</th>
                 </tr>
             </thead>
+			<tbody>
+				<tr>
+					<td>DeepLabV3+ (MobileNetV3-Large)</td>
+					<td>30</td>
+					<td>Backbone LR: 1e-4; Head LR: 1e-3</td>
+					<td>0.2680</td>
+					<td>0.9423</td>
+					<td>0.6637</td>
+					<td>0.8258</td>
+					<td>0.7488</td>
+					<td>0.7811</td>
+				</tr>
+                <tr>
+					<td>SegFormer-B0 (MiT-B0)</td>
+					<td>50</td>
+					<td>Backbone LR: 6e-5; Head LR: 6e-4</td>
+					<td>0.1959</td>
+					<td>0.9461</td>
+					<td>0.6885</td>
+					<td>0.8429</td>
+					<td>0.7723</td>
+					<td>0.8037</td>
+				</tr>
+			</tbody>
         </table>
     </section>
 
-    <!-- 5. Error Analysis -->
+    <!-- 5. Paper Discussion and Summary -->
     <section>
-        <h2>5. Error Analysis & Confusion Matrix</h2>
-        <p>Visual comparison of the confusion matrix and representative misclassified examples between the two architecture families on the Test/Validation set:</p>
+        <h2>5. Paper Discussion and Summary</h2>
+        <h3>Method Summary Of Paper</h3>
+        <p><strong>Motivation.</strong> Two-branch networks (TBNs) such as BiSeNet and DDRNet achieve a favorable speed–accuracy trade-off by combining a high-resolution detail branch with a deep, low-resolution context branch. However, these branches are typically fused by direct summation or concatenation. Xu et al. argue that this naive fusion allows low-frequency contextual information to overwhelm high-frequency details. As a result, object boundaries are eroded and small objects are absorbed by adjacent large regions. The authors refer to this effect as overshoot.</p>
+        <p><strong>Core idea.</strong> The paper draws an analogy between a TBN and a Proportional–Integral (PI) controller. The detail branch responds to local, instantaneous information and therefore behaves like the proportional (P) term. The context branch aggregates information over a wide neighborhood and behaves like a low-pass filter, i.e. the integral (I) term. In control theory, a PI controller is prone to overshoot, which is mitigated by adding a derivative (D) term that is sensitive to rapid signal changes. By analogy, the authors introduce a derivative branch that focuses on high-frequency semantic variation. Since semantic labels change only at object boundaries, this branch is trained as a boundary detector.</p>
+        <p><strong>Architecture.</strong> PIDNet comprises three complementary branches built on cascaded residual blocks:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Branch</th>
+                    <th>Role</th>
+                    <th>Depth</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>P (Proportional)</td>
+                    <td>Preserves fine spatial detail at high resolution</td>
+                    <td>Moderate</td>
+                </tr>
+                <tr>
+                    <td>I (Integral)</td>
+                    <td>Aggregates local and global context, models long-range dependencies</td>
+                    <td>Deep</td>
+                </tr>
+                <tr>
+                    <td>D (Derivative)</td>
+                    <td>Extracts high-frequency features to predict boundaries</td>
+                    <td>Shallow</td>
+                </tr>
+            </tbody>
+        </table>
 
-        <div class="comparison-grid">
-            <div class="model-column">
-                <h3>TBU</h3>
-                
-                <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ResNet-18]
-                </div>
+        <h3>Experimental Summary Of Paper</h3>
+        <p><strong>Datasets and metrics.</strong> The paper evaluates on Cityscapes (2,975/500/1,525 train/val/test images at 2048 × 1024, 19 classes, fine annotations only), CamVid (367/101/233 images, 11 classes) and PASCAL Context (4,998/5,105 train/val images; 59 and 60 classes). Accuracy is measured by mean Intersection-over-Union (mIoU), and efficiency by frames per second (FPS) on a single RTX 3090 with batch size 1.</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dataset</th>
+                    <th>Train / Val / Test</th>
+                    <th>Resolution</th>
+                    <th>Classes</th>
+                    <th>Role in the paper</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Cityscapes</td>
+                    <td>2,975 / 500 / 1,525</td>
+                    <td>2048 × 1024</td>
+                    <td>19 (fine annotations only)</td>
+                    <td>Main benchmark for speed–accuracy comparison and all ablations</td>
+                </tr>
+                <tr>
+                    <td>CamVid</td>
+                    <td>367 / 101 / 233</td>
+                    <td>960 × 720</td>
+                    <td>11 (of 32)</td>
+                    <td>Second real-time benchmark; models are fine-tuned from Cityscapes-pretrained weights</td>
+                </tr>
+                <tr>
+                    <td>PASCAL Context</td>
+                    <td>4,998 / 5,105</td>
+                    <td>520 × 520 crop</td>
+                    <td>59 and 60</td>
+                    <td>Generalization test against heavier, high-accuracy networks</td>
+                </tr>
+            </tbody>
+        </table>
 
-                <h4>Top Misclassified Examples</h4>
-                <div class="placeholder-box">
-                    [Insert representative misclassified examples of ResNet-18<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
-                </div>
-            </div>
-
-            <!-- Right column: Transformer (ViT-Small) -->
-            <div class="model-column">
-                <h3>TBU</h3>
-                
-                <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ViT-Small]
-                </div>
-
-                <h4>Top Misclassified Examples</h4>
-                <div class="placeholder-box">
-                    [Insert representative misclassified examples of ViT-Small<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. Discussion -->
-    <section>
-        <h2>6. Discussion</h2>
+        <h3>Discussion Of Limitations</h3>
+        <p><strong>Limitations acknowledged by the authors.</strong> Because the boundary branch and the Bag module depend on predicted boundaries, performance benefits from precise boundary annotations, which are costly to produce.</p>
+        <p><strong>Limitations identified in this work.</strong></p>
         <ul>
-            <li><strong>TBU</strong> TBU</li>
+            <li><strong><em>Data:</em></strong> The architecture is developed and tuned primarily for urban driving scenes with well-defined object boundaries. On PASCAL Context, which has coarser annotations, PIDNet-L (51.9 mIoU-59) remains below HRNet (54.0).</li>
+            <li><strong><em>Computation:</em></strong> The reported accuracy relies on a long and memory-intensive schedule (484 epochs, batch size 12, 1024 × 1024 crops). The reported FPS values were measured on a desktop RTX 3090 with batch size 1 and do not transfer directly to laptop GPUs or edge devices.</li>
+            <li><strong><em>Failure cases:</em></strong> Thin or small objects (e.g. poles, traffic signs, riders) and rare classes remain challenging, because the P branch is shallow and the corresponding boundaries are very narrow. Coarse boundary prediction may also fail to separate tightly adjacent instances.</li>
+            <li><strong><em>Assumptions violated in our setting:</em></strong> (1) Our compute budget does not allow the paper’s training protocol to be reproduced. (2) Our two baselines (MobileNetV3 + DeepLabV3+ and SegFormer-B0 + MiT-B0) have no dedicated boundary branch, so the comparison reflects the overall architecture rather than the boundary-guidance mechanism in isolation.</li>
         </ul>
+
+        <h3>Analysis</h3>
+        <p>The best validation mIoU is 53.75% (epoch 45), considerably below the 78.8% reported for PIDNet-S on the Cityscapes validation set. The training curves indicate that the model did not simply lack training time. Validation mIoU peaked at epoch 45 and then fluctuated around 0.525 for the remaining 105 epochs, while the training loss saturated at approximately 0.102. This plateau coincides with the step-wise learning-rate decay: the LR dropped below 1e-5 by epoch 85 and reached zero after epoch 100, so the final 50 epochs contributed almost no learning. The gap between training and validation pixel accuracy (96.5% vs. 91.9%) further suggests limited generalization. We therefore attribute the difference from the paper primarily to (1) the aggressive LR decay in place of the poly schedule, (ii) the small batch size (4 vs. 12), which also makes batch-normalization statistics noisy, and (iii) the reduced crop size (512 × 1024 vs. 1024 × 1024), which limits context and the resolution of small objects. Two validation spikes at epochs 15 and 30 (val loss 0.31 → 0.81 at epoch 30), both occurring at LR=0.01, further indicate unstable optimization at the initial learning rate with a small batch.</p>
+
+        <h3>Summary</h3>
+        <p><strong>Reproduction outcome</strong></p>
+        <p>We implemented and trained PIDNet on Cityscapes (19 classes, 2,975 training and 500 validation images) using the same optimizer family and key hyperparameters as the original paper (SGD, initial learning rate 0.01, weight decay 5e-4). The best validation result was obtained at epoch 45, with a mIoU of 53.75%, pixel accuracy of 91.90%, precision of 0.7349, recall of 0.6251 and F1-score of 0.6649. This is roughly 25 points below the 78.8% mIoU reported for PIDNet-S in the paper, and also below both of our baselines (MobileNetV3 + DeepLabV3+ and SegFormer-B0 + MiT-B0). We therefore did not reproduce the accuracy reported in the paper, and our results should not be read as evidence against the method itself.</p>
+        <figure>
+            <img src="pidnet_training_curves.png" alt="PIDNet training curves for loss, pixel accuracy, validation mIoU, precision, recall, F1-score, and learning rate" style="display: block; width: 100%; height: auto; border-radius: 6px;">
+            <figcaption style="margin-top: 8px; text-align: center; color: #64748b;">PIDNet training and validation metrics across epochs; the best validation mIoU was reached at epoch 45.</figcaption>
+        </figure>
     </section>
 </div>
 
