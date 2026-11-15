@@ -223,7 +223,7 @@
         <ul>
             <li><strong>Dataset Link: </strong>https://www.cityscapes-dataset.com/dataset-overview/</li>
             <li><strong>Selected Dataset: </strong>Cityscapes</li>
-			<li><strong>The number of classes: </strong>30 classes (19 classes are used in primary benchmark</li>
+			<li><strong>The number of classes: </strong>30 classes (19 classes are used in primary benchmark)</li>
 			<li><strong>Resolution: </strong>2048 x 1024</li>
             <li><strong>Split Configuration: </strong>
                 <ul>
@@ -252,31 +252,26 @@
             <tbody>
                 <tr>
                     <td class="text-left"><strong>Input Image size</strong></td>
-                    <td>32 &times; 32</td>
-                    <td>32 &times; 32</td>
+                    <td>1024 &times; 512</td>
+                    <td>1024 &times; 512</td>
                 </tr>
                 <tr>
-                    <td class="text-left"><strong>Batch Size</strong></td>
-                    <td>32/64/128</td>
-                    <td>32/64/128</td>
-                </tr>
-                <tr>
-                    <td class="text-left"><strong>Shuffle & Workers</strong></td>
-                    <td><code>Shuffle = True</code>, <code>num_workers = 2</code></td>
-                    <td><code>Shuffle = False</code>, <code>num_workers = 2</code></td>
+                    <td class="text-left"><strong>Shuffle</strong></td>
+                    <td><code>Shuffle = True</code></td>
+                    <td><code>Shuffle = False</code></td>
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Augmentation Pipeline</strong></td>
                     <td class="text-left">
                         <ul>
-                            <li><code>RandomResizedCrop(32)</code></li>
                             <li><code>RandomHorizontalFlip(p=0.5)</code></li>
-                            <li><code>Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))</code></li>
+                            <li><code>ColorJitter(brightness=0.2, contrast=0.2, saturation=0.2, p=0.5)</code></li>
+                            <li><code>Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])</code></li>
                         </ul>
                     </td>
                     <td class="text-left">
                         <ul>
-                            <li><code>Normalize((0.5,0.5,0.5),(0.5,0.5,0.5))</code></li>
+                            <li><code>Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])</code></li>
                         </ul>
                     </td>
                 </tr>
@@ -287,92 +282,73 @@
     <!-- 3. Experimental Protocol -->
     <section>
         <h2>3. Experimental Protocol & Training Configuration Matrix</h2>
-        <p>TBU<strong>TBU</strong> and <strong>TBU</strong> TBU</p>
+        <p>DeepLabV3+ architecture utilizing a MobileNetV3-Large encoder and ASPP (Atrous Spatial Pyramid Pooling).</p>
+        <ul>
+            <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500 Ada</code></li>
+            <li><strong>Models:</strong><code>MobileNet_V3_Large and DeepLabV3+</code></li>
+            <li><strong>Optimizer: </strong><code>AdamW (Weight Decay: 1e-4)</code></li>
+            <li><strong>Scheduler: </strong><code>ReduceLROnPlateau (factor=0.5, patience=5)</code>. The learning rates drop to 0.000050 (Backbone) and 0.000500 (Head) at Epoch 18. The rates drop again to 0.000025 (Backbone) and 0.000250 (Head) at Epoch 27.</li>
+        </ul>
+        <p>SegFormer-B0 architecture utilizing a MiT-B0 (Mix Transformer) encoder and All-MLP Decoder.</p>
         
         <ul>
-            <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500</code></li>
-            <li><strong>Pretrained model:</strong><code>TBU</code></li>
-            <li><strong>Optimizer: </strong>TBU<code>TBU</code></li>
-            <li><strong>Scheduler: </strong>TBU<code>TBU</code></li>
-            <li><strong>Epochs:</strong><code>TBU</code></li>
+            <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500 Ada</code></li>
+            <li><strong>Models:</strong><code>MiT-B0 + SegFormer-B0</code></li>
+            <li><strong>Optimizer: </strong><code>AdamW (Weight Decay: 0.01)</code></li>
+            <li><strong>Scheduler: </strong><code>ReduceLROnPlateau (mode="max", factor=0.5, patience=4)</code>. For SegFormer-B0, initial learning rates are 6e-5 (Backbone) and 6e-4 (Head). The rates drop to 3e-5 / 3e-4 at Epoch 27, and 1.5e-5 / 1.5e-4 at Epoch 44.</li>
         </ul>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Ver.</th>
-                    <th>Model</th>
-                    <th>Initialize weights</th>
-                    <th>Training Strategy</th>
-                    <th>Freeze Level Details</th>
-                </tr>
-            </thead>
-        </table>
     </section>
 
     <!-- 4. Results & Comparison -->
     <section>
         <h2>4. Comparison Results Table & Evaluation Metrics</h2>
-        <p>The test results are based on the model trained with the highest validation accuracy.</p>
+        <p>The test results are based on the model trained with the highest validation accuracy (Best Model saved at Epoch 21 for DeepLabV3+ and Epoch 45 for SegFormer-B0).</p>
         <p>Summary table of experimental data:</p>
         
         <table>
             <thead>
                 <tr>
                     <th>Architecture</th>
-                    <th>Configuration / Freeze Level</th>
-                    <th>Trainable Params</th>
-                    <th>Val Accuracy (%)</th>
-                    <th>Test Accuracy (%)</th>
-                    <th>Macro F1-Score</th>
-                    <th>Time (s/epoch)</th>
+					<th>Epoch</th>
+					<th>Learning Rate</th>
+                    <th>Validation Loss</th>
+                    <th>Pixel Accuracy</th>
+                    <th>mIoU</th>
+					<th>Precision</th>
+					<th>Recall</th>
+					<th>F1-score</th>
                 </tr>
             </thead>
+			<tbody>
+				<tr>
+					<td>DeepLabV3+ (MobileNetV3-Large)</td>
+					<td>30</td>
+					<td>Backbone LR: 1e-4; Head LR: 1e-3</td>
+					<td>0.2680</td>
+					<td>0.9423</td>
+					<td>0.6637</td>
+					<td>0.8258</td>
+					<td>0.7488</td>
+					<td>0.7811</td>
+				</tr>
+                <tr>
+					<td>SegFormer-B0 (MiT-B0)</td>
+					<td>50</td>
+					<td>Backbone LR: 6e-5; Head LR: 6e-4</td>
+					<td>0.1959</td>
+					<td>0.9461</td>
+					<td>0.6885</td>
+					<td>0.8429</td>
+					<td>0.7723</td>
+					<td>0.8037</td>
+				</tr>
+			</tbody>
         </table>
-    </section>
-
-    <!-- 5. Error Analysis -->
-    <section>
-        <h2>5. Error Analysis & Confusion Matrix</h2>
-        <p>Visual comparison of the confusion matrix and representative misclassified examples between the two architecture families on the Test/Validation set:</p>
-
-        <div class="comparison-grid">
-            <div class="model-column">
-                <h3>TBU</h3>
-                
-                <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ResNet-18]
-                </div>
-
-                <h4>Top Misclassified Examples</h4>
-                <div class="placeholder-box">
-                    [Insert representative misclassified examples of ResNet-18<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
-                </div>
-            </div>
-
-            <!-- Right column: Transformer (ViT-Small) -->
-            <div class="model-column">
-                <h3>TBU</h3>
-                
-                <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ViT-Small]
-                </div>
-
-                <h4>Top Misclassified Examples</h4>
-                <div class="placeholder-box">
-                    [Insert representative misclassified examples of ViT-Small<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
-                </div>
-            </div>
-        </div>
     </section>
 
     <!-- 6. Discussion -->
     <section>
-        <h2>6. Discussion</h2>
+        <h2>5. Discussion</h2>
         <ul>
             <li><strong>TBU</strong> TBU</li>
         </ul>
